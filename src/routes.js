@@ -12,7 +12,7 @@ const Routes = createAppContainer(
       User,
     },
     {
-      initialRouteName: 'User',
+      initialRouteName: 'Main',
       headerLayoutPreset: 'center',
       headerBackTitleVisible: false, // IOS back title
       defaultNavigationOptions: {
