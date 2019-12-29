@@ -1,11 +1,23 @@
-import React, {Component} from 'react'
-import {Text} from 'react-native'
+import React, { Component } from 'react'
+import { Text, Keyboard } from 'react-native'
 
 // Icons
 import Icon from 'react-native-vector-icons/MaterialIcons'
 
 // Styled Components
-import {Container, Form, Input, SubmitButton} from './styles'
+import {
+  Container,
+  Form,
+  Input,
+  SubmitButton,
+  List,
+  User,
+  Avatar,
+  Name,
+  Bio,
+  ProfileButton,
+  ProfileButtonText,
+} from './styles'
 
 // Axios Api
 import api from '../../services/api'
@@ -17,17 +29,27 @@ class Main extends Component {
   }
 
   handleAddUser = async () => {
-    const {users, newUser} = this.state
-    const user = await api.get(`/users/${newUser}`)
+    const { users, newUser } = this.state
+    const response = await api.get(`/users/${newUser}`)
+    const { name, login, bio, avatar_url: avatar } = response.data
     this.setState({
-      users: [...users, user],
+      users: [
+        ...users,
+        {
+          name,
+          login,
+          bio,
+          avatar,
+        },
+      ],
       newUser: '',
     })
-    console.tron.log(user.data)
+
+    Keyboard.dismiss() // hide keyboard after completed request
   }
 
   render() {
-    const {users, newUser} = this.state
+    const { users, newUser } = this.state
 
     return (
       <Container>
@@ -37,7 +59,7 @@ class Main extends Component {
             autoCapitalize="none"
             autoCorrect={false}
             value={newUser}
-            onChangeText={text => this.setState({newUser: text})}
+            onChangeText={text => this.setState({ newUser: text })}
             returnKeyType="send"
             onSubmitEditing={this.handleAddUser}
           />
@@ -46,7 +68,20 @@ class Main extends Component {
           </SubmitButton>
         </Form>
 
-        <Text>{JSON.stringify(users)}</Text>
+        <List
+          data={users}
+          renderItem={({ item }) => (
+            <User>
+              <Avatar source={{ uri: item.avatar }} />
+              <Name>{item.name}</Name>
+              <Bio>{item.bio}</Bio>
+              <ProfileButton onPress={() => {}}>
+                <ProfileButtonText>Ver Perfil</ProfileButtonText>
+              </ProfileButton>
+            </User>
+          )}
+          keyExtractor={item => item.login} // key id
+        />
       </Container>
     )
   }
