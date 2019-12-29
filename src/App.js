@@ -1,10 +1,13 @@
 import React from 'react'
-import {View} from 'react-native'
 
+// Debug
 import './config/ReactotronConfig'
 
+// Routes
+import Routes from './routes'
+
 const App = () => {
-  return <View />
+  return <Routes />
 }
 
 export default App
