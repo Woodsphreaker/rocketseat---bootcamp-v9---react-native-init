@@ -69,9 +69,13 @@ const Bio = styled.Text.attrs({
   text-align: center;
 `
 
-const ProfileButton = styled(RectButton)`
+const ButtonsContainer = styled.View`
+  flex-direction: row;
   margin-top: 10px;
-  align-self: stretch;
+`
+
+const ProfileButton = styled(RectButton)`
+  flex: 1;
   border-radius: 4px;
   background: #7159c1;
   justify-content: center;
@@ -86,6 +90,16 @@ const ProfileButtonText = styled.Text`
   text-transform: uppercase;
 `
 
+const RemoveProfileButton = styled(RectButton)`
+  border-radius: 4px;
+  background: #990000;
+  justify-content: center;
+  align-items: center;
+  padding: 0 12px;
+  margin-left: 5px;
+  height: 36px;
+`
+
 export {
   Container,
   Form,
@@ -96,6 +110,8 @@ export {
   Avatar,
   Name,
   Bio,
+  ButtonsContainer,
   ProfileButton,
   ProfileButtonText,
+  RemoveProfileButton,
 }
