@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, Keyboard } from 'react-native'
+import { Keyboard, ActivityIndicator } from 'react-native'
 
 // Icons
 import Icon from 'react-native-vector-icons/MaterialIcons'
@@ -28,12 +28,17 @@ class Main extends Component {
   state = {
     newUser: '',
     users: [],
+    loading: false,
   }
 
   handleAddUser = async () => {
     const { users, newUser } = this.state
+
+    this.setState({ loading: true })
+
     const response = await api.get(`/users/${newUser}`)
     const { name, login, bio, avatar_url: avatar } = response.data
+
     this.setState({
       users: [
         ...users,
@@ -45,6 +50,7 @@ class Main extends Component {
         },
       ],
       newUser: '',
+      loading: false,
     })
 
     Keyboard.dismiss() // hide keyboard after completed request
@@ -59,7 +65,7 @@ class Main extends Component {
   }
 
   render() {
-    const { users, newUser } = this.state
+    const { users, newUser, loading } = this.state
 
     return (
       <Container>
@@ -73,8 +79,12 @@ class Main extends Component {
             returnKeyType="send"
             onSubmitEditing={this.handleAddUser}
           />
-          <SubmitButton onPress={this.handleAddUser}>
-            <Icon name="add" size={20} color="#fff" />
+          <SubmitButton loading={loading} onPress={this.handleAddUser}>
+            {loading ? (
+              <ActivityIndicator color="#fff" />
+            ) : (
+              <Icon name="add" size={20} color="#fff" />
+            )}
           </SubmitButton>
         </Form>
 
