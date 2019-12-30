@@ -5,9 +5,11 @@ const Container = styled.View`
   flex: 1;
   padding: 10px;
 `
+const Section = styled.View`
+  flex-direction: row;
+`
 
 const Form = styled.View`
-  flex-direction: row;
   padding-bottom: 20px;
   border-bottom-width: 1px;
   border-color: #eee;
@@ -21,7 +23,7 @@ const Input = styled.TextInput.attrs({
   background: #eee;
   border-radius: 4px;
   padding: 0 15px;
-  border: 1px solid #eee;
+  border: 1px solid ${props => (props.error ? '#990000' : '#eee')};
 `
 
 const SubmitButton = styled(RectButton)`
@@ -32,6 +34,12 @@ const SubmitButton = styled(RectButton)`
   margin-left: 10px;
   padding: 0 12px;
   opacity: ${props => (props.loading ? 0.7 : 1)};
+`
+
+const ErrorMessage = styled.Text`
+  color: #990000;
+  padding: 0 0 5px 0;
+  font-weight: bold;
 `
 
 const List = styled.FlatList.attrs({
@@ -103,9 +111,11 @@ const RemoveProfileButton = styled(RectButton)`
 
 export {
   Container,
+  Section,
   Form,
   Input,
   SubmitButton,
+  ErrorMessage,
   List,
   User,
   Avatar,
