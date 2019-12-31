@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import propTypes from 'prop-types'
 import { Keyboard, ActivityIndicator } from 'react-native'
 
 // Async Storage
@@ -30,6 +31,16 @@ import {
 import api from '../../services/api'
 
 class Main extends Component {
+  static navigationOptions = {
+    title: 'Usuários',
+  }
+
+  static propTypes = {
+    navigation: propTypes.shape({
+      navigate: propTypes.func,
+    }).isRequired,
+  }
+
   state = {
     newUser: '',
     users: [],
@@ -121,10 +132,11 @@ class Main extends Component {
     return users.some(({ login }) => login === user)
   }
 
-  handleNavigate = () => {
+  handleNavigate = user => {
     // this props are passed by default for natigation component
+    // console.tron.log(user)
     const { navigation } = this.props
-    navigation.navigate('User')
+    navigation.navigate('User', { user })
   }
 
   render() {
@@ -165,7 +177,7 @@ class Main extends Component {
               <Name>{item.name}</Name>
               <Bio>{item.bio}</Bio>
               <ButtonsContainer>
-                <ProfileButton onPress={this.handleNavigate}>
+                <ProfileButton onPress={() => this.handleNavigate(item)}>
                   <ProfileButtonText>Ver Perfil</ProfileButtonText>
                 </ProfileButton>
                 <RemoveProfileButton
@@ -180,10 +192,6 @@ class Main extends Component {
       </Container>
     )
   }
-}
-
-Main.navigationOptions = {
-  title: 'Usuários',
 }
 
 export default Main
