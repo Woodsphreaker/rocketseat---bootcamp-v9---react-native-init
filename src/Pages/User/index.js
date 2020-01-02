@@ -78,15 +78,16 @@ class User extends Component {
   }
 
   refreshList = () => {
-    this.setState({
-      stars: [],
-      refreshing: true,
-    })
-
-    this.loadStars(1)
+    this.setState(
+      {
+        stars: [],
+        refreshing: true,
+      },
+      this.loadStars
+    )
   }
 
-  repository = repository => {
+  handleNavigate = repository => {
     const { navigation } = this.props
     navigation.navigate('Repository', { repository })
   }
@@ -106,10 +107,14 @@ class User extends Component {
           <Bio>{bio}</Bio>
         </Header>
         <List
-          loading
           data={stars}
+          keyExtractor={item => String(item.id)}
+          onEndReached={this.loadMore}
+          onEndReachedThreshold={0.2}
+          onRefresh={this.refreshList}
+          refreshing={refreshing}
           renderItem={({ item }) => (
-            <ListItem onPress={() => this.repository(item)}>
+            <ListItem onPress={() => this.handleNavigate(item)}>
               <OwnerAvatar source={{ uri: item.owner.avatar_url }} />
               <Info>
                 <Title>{item.name}</Title>
@@ -117,13 +122,8 @@ class User extends Component {
               </Info>
             </ListItem>
           )}
-          keyExtractor={item => item.i}
-          onEndReached={this.loadMore}
-          onEndReachedThreshold={0.2}
-          onRefresh={this.refreshList}
-          refreshing={refreshing}
         />
-        {loading && (
+        {loading && !refreshing && (
           <LoadingContainer>
             <ActivityIndicator size="large" />
           </LoadingContainer>
