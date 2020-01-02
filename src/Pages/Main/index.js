@@ -134,7 +134,6 @@ class Main extends Component {
 
   handleNavigate = user => {
     // this props are passed by default for natigation component
-    // console.tron.log(user)
     const { navigation } = this.props
     navigation.navigate('User', { user })
   }

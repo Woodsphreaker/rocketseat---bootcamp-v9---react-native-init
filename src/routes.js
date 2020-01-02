@@ -4,12 +4,14 @@ import { createStackNavigator } from 'react-navigation-stack'
 // Pages
 import Main from './Pages/Main'
 import User from './Pages/User'
+import Repository from './Pages/Repository'
 
 const Routes = createAppContainer(
   createStackNavigator(
     {
       Main,
       User,
+      Repository,
     },
     {
       initialRouteName: 'Main',
